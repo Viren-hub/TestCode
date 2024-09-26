@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Day Calculator</title>
+    <style>
+        body {
+    font-family: Arial, sans-serif;
+    background-color: #f9f9f9;
+    margin: 0;
+    padding: 10px;
+    }
+
+    .container {
+        display: flex;
+        flex-wrap: wrap;
+        max-width: 720px;
+        margin: auto;
+    }
+
+    .day {
+        color: #fff;
+        font-weight: 900;
+        border-radius: 5px;
+        width: calc(100% / 12 - 2px); 
+        height: 50px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin: 1px;
+        box-shadow: rgba(0, 0, 0, 0.15) 0px 5px 15px 0px;
+        transition: background-color 0.3s;
+        font-size: 0.7rem;
+    }
+
+    .day.past {
+        background-color: #B8001F; 
+        text-decoration: line-through; 
+        color: rgba(255, 255, 255, 0.5); 
+    }
+
+    .day.current {
+        background-color: #28A745; 
+    }
+
+    .day.upcoming {
+        background-color: #6C48C5;
+    }
+
+    </style>
+</head>
+<body>
+    <div class="container" id="daysContainer"></div>
+    <script>
+        const startDate = new Date("2024-9-25");
+        const endDate = new Date("2025-03-31");
+        const daysContainer = document.getElementById("daysContainer");
+
+        const totalDays = Math.ceil((endDate - startDate) / (1000 * 60 * 60 * 24)) + 1;
+
+        for (let i = 0; i < totalDays; i++) {
+            const dayDiv = document.createElement("div");
+            dayDiv.classList.add("day");
+
+            dayDiv.textContent = (i + 1).toString(); 
+
+            const currentDate = new Date(startDate);
+            currentDate.setDate(currentDate.getDate() + i);
+            const today = new Date();
+            today.setHours(0, 0, 0, 0); 
+
+            if (currentDate.toDateString() === today.toDateString()) {
+                dayDiv.classList.add("current");
+            } else if (currentDate < today) {
+                dayDiv.classList.add("past");
+            } else {
+                dayDiv.classList.add("upcoming");
+            }
+
+            daysContainer.appendChild(dayDiv);
+        }
+
+    </script>
+</body>
+</html>
